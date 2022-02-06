@@ -2,7 +2,7 @@
 Note: If there is no set bit in the integer N, then return 0 from the function.
 ```
 ```
-**Example 1:**
+Example 1:
 
 Input: N = 18
 
@@ -14,7 +14,7 @@ right side is at position 2.
 ```
 
 ```
-**Example 2:**
+Example 2:
 
 Input: N = 12 
 
@@ -25,14 +25,16 @@ from the right side is at position 3.
 ```
 
 ```
-**Your Task:**
+Your Task:
 
 The task is to complete the function getFirstSetBit() that takes an integer n as a parameter and returns the position of first set bit.
 Expected Time Complexity: O(log N).
 
 Expected Auxiliary Space: O(1).
 ```
+```
 Constraints:
 
 0 <= N <= 10^8
+```
 

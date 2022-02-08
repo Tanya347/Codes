@@ -23,3 +23,42 @@ This step takes O(k) time.
 3) Iterate through final (k-1) potential candidates (stored in temp[]). or every element, check if it actually has count more than n/k. This step takes O(nk) time.
 
 The main step is step 2, how to maintain (k-1) potential candidates at every point? The steps used in step 2 are like famous game: Tetris. We treat each number as a piece in Tetris, which falls down in our temporary array temp[]. Our task is to try to keep the same number stacked on the same column (count in temporary array is incremented).
+
+```
+Consider k = 4, n = 9 
+Given array: 3 1 2 2 2 1 4 3 3 
+
+i = 0
+         3 _ _
+temp[] has one element, 3 with count 1
+
+i = 1
+         3 1 _
+temp[] has two elements, 3 and 1 with 
+counts 1 and 1 respectively
+
+i = 2
+         3 1 2
+temp[] has three elements, 3, 1 and 2 with
+counts as 1, 1 and 1 respectively.
+
+i = 3
+         - - 2 
+         3 1 2
+temp[] has three elements, 3, 1 and 2 with
+counts as 1, 1 and 2 respectively.
+
+i = 4
+         - - 2 
+         - - 2 
+         3 1 2
+temp[] has three elements, 3, 1 and 2 with
+counts as 1, 1 and 3 respectively.
+
+i = 5
+         - - 2 
+         - 1 2 
+         3 1 2
+temp[] has three elements, 3, 1 and 2 with
+counts as 1, 2 and 3 respectively.
+```

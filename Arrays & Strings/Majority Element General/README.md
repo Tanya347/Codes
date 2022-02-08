@@ -62,3 +62,29 @@ i = 5
 temp[] has three elements, 3, 1 and 2 with
 counts as 1, 2 and 3 respectively.
 ```
+
+Now the question arises, what to do when temp[] is full and we see a new element – we remove the bottom row from stacks of elements, i.e., we decrease count of every element by 1 in temp[]. We ignore the current element.
+
+```
+i = 6
+         - - 2 
+         - 1 2 
+temp[] has two elements, 1 and 2 with
+counts as 1 and 2 respectively.
+
+i = 7
+           - 2 
+         3 1 2 
+temp[] has three elements, 3, 1 and 2 with
+counts as 1, 1 and 2 respectively.
+
+i = 8          
+         3 - 2
+         3 1 2 
+temp[] has three elements, 3, 1 and 2 with
+counts as 2, 1 and 2 respectively.
+```
+
+Finally, we have at most k-1 numbers in temp[]. The elements in temp are {3, 1, 2}. Note that the counts in temp[] are useless now, the counts were needed only in step 2. Now we need to check whether the actual counts of elements in temp[] are more than n/k (9/4) or not. The elements 3 and 2 have counts more than 9/4. So we print 3 and 2.
+
+Note that the algorithm doesn’t miss any output element. There can be two possibilities, many occurrences are together or spread across the array. If occurrences are together, then count will be high and won’t become 0. If occurrences are spread, then the element would come again in temp[].

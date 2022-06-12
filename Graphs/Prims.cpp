@@ -12,9 +12,7 @@ int findMinVertex(vector<int> weights, vector<bool> visited, int n) {
     //if vertex is not visited and weight of is minimum
     for(int i = 0; i < n; i++) {
         
-        //we are keeping the -1 condition for those cases where the array elements ahead have not been visited and contain
-        //INT_MAX, it is basically for getting the very first vertex that has not been visited. If there exist any further
-        //vertices that may have populated weights we use the second condition and find the minimum most
+        //we are keeping the -1 condition for the very first vertex that has not been visited. 
         if(!visited[i] && (minVertex == -1 || weights[i] < weights[minVertex])) {
             minVertex = i;
         }

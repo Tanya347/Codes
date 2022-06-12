@@ -86,4 +86,9 @@ int main() {
     //prims function that uses prims algorithm to populate the output array
     prims(edges, n, e);
     
+    for(int i = 0; i < n; i++) {
+        delete [] edges[i];
+    }
+    
+    delete [] edges;
 }

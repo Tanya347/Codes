@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <climits>
 using namespace std;
 
 // Implementation of Binary Tree
@@ -227,6 +228,28 @@ void mirrorBinaryTree(BinaryTreeNode<int> *root)
     BinaryTreeNode<int> *temp = root->left;
     root->left = root->right;
     root->right = temp;
+}
+
+// function to find max and min both of a tree
+pair<int, int> getMinAndMax(BinaryTreeNode<int> *root)
+{
+
+    pair<int, int> minmax;
+    // Base case
+    if (root == NULL)
+    {
+        minmax = make_pair(INT_MAX, 0);
+        return minmax;
+    }
+
+    pair<int, int> leftMinmax = getMinAndMax(root->left);
+    pair<int, int> rightMinmax = getMinAndMax(root->right);
+
+    int minimum = min(root->data, min(leftMinmax.first, rightMinmax.first));
+    int maximum = max(root->data, max(leftMinmax.second, rightMinmax.second));
+
+    minmax = make_pair(minimum, maximum);
+    return minmax;
 }
 
 /*********************************  TRAVERSALS  ***********************************/

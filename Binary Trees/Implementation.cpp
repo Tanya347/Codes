@@ -297,21 +297,136 @@ void postorder(BinaryTreeNode<int> *root)
 
 int main()
 {
-    // BinaryTreeNode<int> *root = new BinaryTreeNode<int>(1);
-    // BinaryTreeNode<int> *node1 = new BinaryTreeNode<int>(2);
-    // BinaryTreeNode<int> *node2 = new BinaryTreeNode<int>(3);
-    // root->left = node1;
-    // root->right = node2;
+    cout << "\nEnter 1 if you want to take input and print recursively" << endl;
+    cout << "\nEnter 2 if you want to take input and print level wise" << endl;
+    int choice;
+    cin >> choice;
 
-    // cout << "Enter root data" << endl;
-    // BinaryTreeNode<int> *root = takeInputRecursive();
-    // cout << endl;
-    // printTreeRecursive(root);
+    BinaryTreeNode<int> *root;
+    if (choice == 1)
+    {
+        root = takeInputRecursive();
+        cout << "\nYour Tree is : " << endl
+             << endl;
+        printTreeRecursive(root);
+    }
+    else
+    {
+        root = takeInputLevelWise();
+        cout << "\nYour Tree is : " << endl
+             << endl;
+        printLevelWise(root);
+    }
 
-    BinaryTreeNode<int> *root = takeInputLevelWise();
-    printTreeRecursive(root);
-    // cout << "\nNumber of nodes : " << countNodes(root) << endl;
-    cout << "\nDiameter of Tree : " << diameterBetter(root).second << endl;
+    char ch;
+    cout << "\nWant to perform any operations on the tree? (y/n) : ";
+    cin >> ch;
+    while (ch == 'y' || ch == 'Y')
+    {
+        cout << "\nPERFORM OPERATIONS ON TREE :";
+        cout << "\n1. Number of Nodes :";
+        cout << "\n2. Find a node";
+        cout << "\n3. Height";
+        cout << "\n4. Diameter";
+        cout << "\n5. Make a mirror of the tree";
+        cout << "\n6. Max and Min in the tree";
+        cout << "\n7. Traversals";
+
+        int option;
+        cout << "\n\nEnter the operation you want to peform : ";
+        cin >> option;
+
+        switch (option)
+        {
+        case 1:
+        {
+            cout << "\nThe number of nodes present in the Tree is " << countNodes(root) << endl;
+            break;
+        }
+        case 2:
+        {
+            cout << "\nEnter the node data you want to search : ";
+            int value;
+            cin >> value;
+            if (isNodePresent(root, value))
+                cout << "\nNode is present\n";
+            else
+                cout << "\nNode is not present\n";
+            break;
+        }
+        case 3:
+        {
+            cout << "\nThe height of the tree is " << height(root) << endl;
+            break;
+        }
+        case 4:
+        {
+            cout << "\nThe diameter of the tree is " << diameterBetter(root).second << endl;
+            break;
+        }
+        case 5:
+        {
+            BinaryTreeNode<int> *mirror = root;
+            mirrorBinaryTree(mirror);
+            cout << "\nMirrored Binary Tree" << endl;
+            printLevelWise(mirror);
+            cout << endl;
+            break;
+        }
+        case 6:
+        {
+            cout << "\nThe min is " << getMinAndMax(root).first << "\nThe max is " << getMinAndMax(root).second << endl;
+            break;
+        }
+        case 7:
+        {
+            cout << "\n\nTRAVERSAL MENU";
+            cout << "\n1. Pre order Traversal";
+            cout << "\n2. Post order Traversal";
+            cout << "\n3. In order Traversal";
+            cout << "\nEnter you choice : ";
+            int traversal_choice;
+            cin >> traversal_choice;
+            switch (traversal_choice)
+            {
+            case 1:
+            {
+                cout << "\nPreorder Traversal\n";
+                preorder(root);
+                cout << endl;
+                break;
+            }
+            case 2:
+            {
+                cout << "\nPostorder Traversal\n";
+                postorder(root);
+                cout << endl;
+                break;
+            }
+            case 3:
+            {
+                cout << "\nInorder Traversal\n";
+                inorder(root);
+                cout << endl;
+                break;
+            }
+            default:
+                cout << "Invalid option!!";
+                break;
+            }
+            break;
+        }
+        default:
+            cout << "\nOption not known!";
+            break;
+        }
+
+        cout << "\nWant to perform any more operations on the tree? (y/n) : ";
+        cin >> ch;
+    }
+
+    cout << "\nGood Bye :(\n"
+         << endl;
 }
 
 // 1 2 3 4 5 6 7 -1 -1 8 9 -1 -1 -1 -1 -1 -1 -1 -1

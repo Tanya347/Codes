@@ -16,9 +16,9 @@ public:
 
     ~TreeNode()
     {
-        for (int i = 0; i < root->children.size(); i++)
+        for (int i = 0; i < children.size(); i++)
         {
-            deleteTree(root->children[i]);
+            delete children[i];
         }
     }
 };
@@ -144,7 +144,7 @@ void deleteTree(TreeNode<int> *root)
 int countNodes(TreeNode<int> *root)
 {
     if (root == NULL)
-        return;
+        return 0;
 
     int count = 0;
     for (int i = 0; i < root->children.size(); i++)
@@ -158,7 +158,7 @@ int countNodes(TreeNode<int> *root)
 int sumOfNodes(TreeNode<int> *root)
 {
     if (root == NULL)
-        return;
+        return 0;
 
     int sum = 0;
     for (int i = 0; i < root->children.size(); i++)
@@ -172,7 +172,7 @@ int sumOfNodes(TreeNode<int> *root)
 TreeNode<int> *maxDataNode(TreeNode<int> *root)
 {
     if (root == NULL)
-        return;
+        return NULL;
 
     TreeNode<int> *max = root;
 
@@ -190,7 +190,7 @@ TreeNode<int> *maxDataNode(TreeNode<int> *root)
 int getHeight(TreeNode<int> *root)
 {
     if (root == NULL)
-        return;
+        return 0;
 
     int height = 0;
     for (int i = 0; i < root->children.size(); i++)
@@ -210,7 +210,7 @@ void printAtLevelK(TreeNode<int> *root, int k)
 
     if (k == 0)
     {
-        cout << root->data << endl;
+        cout << root->data << " ";
         return;
     }
 
@@ -221,7 +221,6 @@ void printAtLevelK(TreeNode<int> *root, int k)
 }
 
 // Function to find the number of leaf nodes present in a tree
-
 int getLeafNodeCount(TreeNode<int> *root)
 {
     if (root == NULL)
@@ -273,15 +272,122 @@ void postorder(TreeNode<int> *root)
 
 int main()
 {
+    cout << "\nEnter 1 if you want to take input and print recursively" << endl;
+    cout << "\nEnter 2 if you want to take input and print level wise" << endl;
+    int choice;
+    cin >> choice;
+
     TreeNode<int> *root;
-    cout << "\nTREE MENU :";
-    cout << "\n1. Number of Nodes :";
-    cout << "\n2. Sum of All Nodes";
-    cout << "\n3. Max node value";
-    cout << "\n4. Height of Tree";
-    cout << "\n5. Nodes at a Level";
-    cout << "\n6. Number of Leaf nodes";
-    cout << "\n5. Traversals";
+    if (choice == 1)
+    {
+        root = takeInputRecursive();
+        cout << "\nYour Tree is : " << endl
+             << endl;
+        printTreeRecursive(root);
+    }
+    else
+    {
+        root = takeInputLevelWise();
+        cout << "\nYour Tree is : " << endl
+             << endl;
+        printLevelWise(root);
+    }
+
+    char ch;
+    cout << "\nWant to perform any operations on the tree? (y/n) : ";
+    cin >> ch;
+    while (ch == 'y' || ch == 'Y')
+    {
+        cout << "\nPERFORM OPERATIONS ON TREE :";
+        cout << "\n1. Number of Nodes :";
+        cout << "\n2. Sum of All Nodes";
+        cout << "\n3. Max node value";
+        cout << "\n4. Height of Tree";
+        cout << "\n5. Nodes at a Level";
+        cout << "\n6. Number of Leaf nodes";
+        cout << "\n7. Traversals";
+
+        int option;
+        cout << "\n\nEnter the operation you want to peform : ";
+        cin >> option;
+
+        switch (option)
+        {
+        case 1:
+        {
+            cout << "\nThe number of nodes present in the Tree is " << countNodes(root) << endl;
+            break;
+        }
+        case 2:
+        {
+            cout << "\nThe sum of all nodes present in the Tree is " << sumOfNodes(root) << endl;
+            break;
+        }
+        case 3:
+        {
+            cout << "\nThe max node value is " << maxDataNode(root)->data << endl;
+            break;
+        }
+        case 4:
+        {
+            cout << "\nThe height of the tree is " << getHeight(root) << endl;
+            break;
+        }
+        case 5:
+        {
+            cout << "\nEnter the level whose nodes you want to view : ";
+            int k;
+            cin >> k;
+            printAtLevelK(root, k);
+            cout << endl;
+            break;
+        }
+        case 6:
+        {
+            cout << "\nThe number of leaf nodes present in the tree is " << getLeafNodeCount(root) << endl;
+            break;
+        }
+        case 7:
+        {
+            cout << "\n\nTRAVERSAL MENU";
+            cout << "\n1. Pre order Traversal";
+            cout << "\n2. Post order Traversal";
+            cout << "\nEnter you choice : ";
+            int traversal_choice;
+            cin >> traversal_choice;
+            switch (traversal_choice)
+            {
+            case 1:
+            {
+                cout << "\nPreorder Traversal\n";
+                preorder(root);
+                cout << endl;
+                break;
+            }
+            case 2:
+            {
+                cout << "\nPostorder Traversal\n";
+                postorder(root);
+                cout << endl;
+                break;
+            }
+            default:
+                cout << "Invalid option!!";
+                break;
+            }
+            break;
+        }
+        default:
+            cout << "\nOption not known!";
+            break;
+        }
+
+        cout << "\nWant to perform any more operations on the tree? (y/n) : ";
+        cin >> ch;
+    }
+
+    cout << "\nGood Bye :(\n"
+         << endl;
     delete root;
 }
 

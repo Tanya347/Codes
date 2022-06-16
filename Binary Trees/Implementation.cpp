@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <vector>
 #include <climits>
 using namespace std;
 
@@ -252,6 +253,35 @@ pair<int, int> getMinAndMax(BinaryTreeNode<int> *root)
     return minmax;
 }
 
+vector<int> *getRootToNodePath(BinaryTreeNode<int> *root, int data)
+{
+    if (root == NULL)
+        return NULL;
+
+    if (root->data == data)
+    {
+        vector<int> *output = new vector<int>();
+        output->push_back(root->data);
+        return output;
+    }
+
+    vector<int> *leftOutput = getRootToNodePath(root->left, data);
+    if (leftOutput != NULL)
+    {
+        leftOutput->push_back(root->data);
+        return leftOutput;
+    }
+
+    vector<int> *rightOutput = getRootToNodePath(root->right, data);
+    if (rightOutput != NULL)
+    {
+        rightOutput->push_back(root->data);
+        return rightOutput;
+    }
+
+    return NULL;
+}
+
 /*********************************  TRAVERSALS  ***********************************/
 
 // inorder
@@ -330,7 +360,8 @@ int main()
         cout << "\n4. Diameter";
         cout << "\n5. Make a mirror of the tree";
         cout << "\n6. Max and Min in the tree";
-        cout << "\n7. Traversals";
+        cout << "\n7. Root to node Path";
+        cout << "\n8. Traversals";
 
         int option;
         cout << "\n\nEnter the operation you want to peform : ";
@@ -379,6 +410,24 @@ int main()
             break;
         }
         case 7:
+        {
+            cout << "\nEnter the node whose path you want to find : ";
+            int node;
+            cin >> node;
+            vector<int> *path = getRootToNodePath(root, node);
+            if (path == NULL)
+                cout << "\nNode not found, path does not exist\n";
+            else
+            {
+                for (int i = 0; i < path->size(); i++)
+                {
+                    cout << path->at(i) << " ";
+                }
+                cout << endl;
+            }
+            break;
+        }
+        case 8:
         {
             cout << "\n\nTRAVERSAL MENU";
             cout << "\n1. Pre order Traversal";

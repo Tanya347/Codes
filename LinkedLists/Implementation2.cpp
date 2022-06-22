@@ -240,6 +240,24 @@ int findNodeRec(Node *head, int n)
     return (pos == -1) ? -1 : 1 + pos;
 }
 
+// return mid node
+Node *midPoint(Node *head)
+{
+    if (head == NULL)
+        return head;
+
+    Node *slow = head;
+    Node *fast = head->next;
+
+    while (fast != NULL && fast->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    return slow;
+}
+
 int main()
 {
     cout << "\nInsert linked list (end with -1) : " << endl;
@@ -260,6 +278,7 @@ int main()
         cout << "\n3. Insert at ith index";
         cout << "\n4. Print node at ith index";
         cout << "\n5. Find node";
+        cout << "\n6. Middle Node";
 
         int option;
         cout << "\n\nEnter the operation you want to peform : ";
@@ -333,6 +352,12 @@ int main()
             cout << "\nIndex is (Iterative) : " << findNode(head, d);
             cout << "\nIndex is (Recursive) : " << findNodeRec(head, d);
             cout << endl;
+            break;
+        }
+        case 6:
+        {
+            Node *mid = midPoint(head);
+            cout << "\nMiddle node is : " << mid->data << endl;
             break;
         }
         default:

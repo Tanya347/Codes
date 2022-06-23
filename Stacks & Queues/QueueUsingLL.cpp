@@ -1,129 +1,193 @@
 #include <iostream>
+#include <climits>
 using namespace std;
-template <typename T>
 
+template <typename T>
 class Node
 {
 public:
     T data;
-    Node<T> *next;
-
+    Node *next;
     Node(T data)
     {
         this->data = data;
-        next = NULL;
+        this->next = NULL;
     }
 };
 
 template <typename T>
-
-class QueueUsingLL
+class queue
 {
-
-    Node<T> *head; // To maintain the front of the Queue
-    Node<T> *tail; // To maintain the rear of the queue
-    int size;
+private:
+    Node<T> *head;
+    Node<T> *tail;
+    int qSize;
 
 public:
-    QueueUsingLL()
+    queue()
     {
         head = NULL;
         tail = NULL;
-        size = 0;
+        qSize = 0;
     }
-
-    int getSize()
+    ~queue()
     {
-        return size;
     }
-
-    bool isEmpty()
-    {
-        return head == NULL;
-    }
-
-    void push(T element)
-    {
-        Node<T> *newnode = new Node<T>(element);
-        if (head == NULL)
-        {
-            head = newnode;
-            tail = newnode;
-            size++;
-        }
-        else
-        {
-            tail->next = newnode;
-            tail = tail->next;
-            size++;
-        }
-    }
-
-    int pop()
-    {
-        if (head == NULL)
-            return -1;
-        Node<T> *temp;
-        temp = head;
-        head = head->next;
-        temp->next = NULL;
-        int pop_data = temp->data;
-        size--;
-        free(temp);
-        return pop_data;
-    }
-
-    int front()
-    {
-        if (head == NULL)
-            return -1;
-        return head->data;
-    }
+    void push(T);
+    void pop();
+    T front();
+    int size();
+    bool empty();
 };
+
+template <typename T>
+void queue<T>::push(T element)
+{
+    Node<T> *newNode = new Node<T>(element);
+    if (tail == NULL)
+    {
+        head = newNode;
+        tail = newNode;
+    }
+    else
+    {
+        tail->next = newNode;
+        tail = newNode;
+    }
+    qSize++;
+}
+
+template <typename T>
+void queue<T>::pop()
+{
+    if (empty())
+    {
+        cout << "\nQueue is empty" << endl;
+        return;
+    }
+    Node<T> *temp = head;
+    head = head->next;
+    temp->next = NULL;
+    delete temp;
+    size--;
+}
+
+template <typename T>
+T queue<T>::front()
+{
+    if (empty())
+    {
+        cout << "\nQueue is empty" << endl;
+        return 0;
+    }
+
+    return head->data;
+}
+
+template <typename T>
+int queue<T>::size()
+{
+    return qSize;
+}
+
+template <typename T>
+bool queue<T>::empty()
+{
+    return (qSize == 0);
+}
 
 int main()
 {
-    int size;
-    cout << "Enter the size of the queue: ";
-    cin >> size;
-    QueueUsingLL<int> q;
+    queue<int> q;
+    int i = 1;
+    cout << "Enter elements of queue, enter -1 to terminate : " << endl;
+    cout << "Enter element "
+         << i
+         << " : ";
 
-    cout << "MENU" << endl;
-    cout << "1. INSERT ELEMENT" << endl;
-    cout << "2. POP ELEMENT" << endl;
-    cout << "3. DISPLAY TOP ELEMENT" << endl;
-    cout << "4. SIZE" << endl;
-    cout << "5. CHECK EMPTY OR NOT" << endl;
-    int choice;
-    char ch;
-    do
+    int data;
+    cin >> data;
+    while (data != -1)
     {
-        cout << "\nInsert Choice: ";
-        cin >> choice;
-        switch (choice)
+        q.push(data);
+        i++;
+        cout << "Enter element "
+             << i
+             << " : ";
+        cin >> data;
+    }
+
+    char ch;
+    cout << "\nWant to perform any operations on the linked list? (y/n) : ";
+    cin >> ch;
+
+    while (ch == 'y' || ch == 'Y')
+    {
+        cout << "\nPERFORM OPERATIONS ON queue :";
+
+        cout << "\n1. Insert element to queue";
+        cout << "\n2. Delete front of queue";
+        cout << "\n3. Get front of queue";
+        cout << "\n4. Get size of queue";
+        cout << "\n5. Check is queue empty";
+
+        int option;
+        cout << "\n\nEnter the operation you want to peform : ";
+        cin >> option;
+
+        switch (option)
         {
         case 1:
-            cout << "Insert Element: ";
-            int input;
-            cin >> input;
-            q.push(input);
+        {
+            cout << "\nEnter element "
+                 << " : ";
+
+            cin >> data;
+            q.push(data);
+            cout << "\nFront of queue now is : " << q.front();
+            cout << endl;
             break;
-        case 2:
-            cout << "Deleted Element: " << q.pop() << "\n";
-            break;
-        case 3:
-            cout << "Front Element: " << q.front() << "\n";
-            break;
-        case 4:
-            cout << "Current Size: " << q.getSize() << "\n";
-            break;
-        case 5:
-            cout << "Queue is " << ((q.isEmpty()) ? "empty\n" : "not empty\n");
-            break;
-        default:
-            cout << "INVALID CHOICE!!";
         }
-        cout << "\nPerform more operations? (y/n) : ";
+        case 2:
+        {
+            cout << "\nFront of queue initially is : " << q.front();
+            cout << endl;
+            q.pop();
+            if (!q.empty())
+                cout << "\nFront of queue after popping is : " << q.front();
+
+            cout << endl;
+            break;
+        }
+        case 3:
+        {
+            if (!q.empty())
+                cout << "\nFront of queue is : " << q.front();
+            cout << endl;
+            break;
+        }
+        case 4:
+        {
+            cout << "\nSize of queue is : " << q.size();
+            cout << endl;
+            break;
+        }
+        case 5:
+        {
+            if (q.empty())
+                cout << "\nqueue is empty" << endl;
+            else
+                cout << "\nqueue is not empty" << endl;
+            break;
+        }
+        default:
+            cout << "\nInvalid option!!!\n";
+        }
+
+        cout << "\nWant to perform any more operations on the queue? (y/n) : ";
         cin >> ch;
-    } while (ch == 'Y' || ch == 'y');
+    }
+
+    cout << "\nGood Bye :(\n"
+         << endl;
 }

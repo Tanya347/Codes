@@ -10,7 +10,7 @@ private:
     int nextIndex;
     int firstIndex;
     int capacity;
-    int stackSize;
+    int qSize;
 
 public:
     queue()
@@ -19,7 +19,7 @@ public:
         arr = new T[5];
         nextIndex = 0;
         firstIndex = -1;
-        stackSize = 0;
+        qSize = 0;
     }
     ~queue()
     {
@@ -34,7 +34,7 @@ public:
 template <typename T>
 void queue<T>::push(T element)
 {
-    if (stackSize == capacity)
+    if (qSize == capacity)
     {
         T *newArr = new T[2 * capacity];
         int j = 0;
@@ -56,7 +56,7 @@ void queue<T>::push(T element)
 
     arr[nextIndex] = element;
     nextIndex = (nextIndex + 1) % capacity;
-    stackSize++;
+    qSize++;
     if (firstIndex == -1)
         firstIndex = 0;
 }
@@ -70,8 +70,8 @@ void queue<T>::pop()
         return;
     }
     firstIndex = (firstIndex + 1) % capacity;
-    stackSize--;
-    if (stackSize == 0)
+    qSize--;
+    if (qSize == 0)
     {
         firstIndex = -1;
         nextIndex = 0;
@@ -93,13 +93,13 @@ T queue<T>::front()
 template <typename T>
 int queue<T>::size()
 {
-    return stackSize;
+    return qSize;
 }
 
 template <typename T>
 bool queue<T>::empty()
 {
-    return (stackSize == 0);
+    return (qSize == 0);
 }
 
 int main()

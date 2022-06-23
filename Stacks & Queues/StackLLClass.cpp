@@ -1,138 +1,177 @@
 #include <iostream>
+#include <climits>
 using namespace std;
 
 template <typename T>
-
-class Node
+class stack
 {
-public:
-    T data;
-    Node<T> *next;
+private:
+    T *arr;
+    int nextIndex;
+    int capacity;
 
-    Node(T data)
+public:
+    stack()
     {
-        this->data = data;
-        next = NULL;
+        capacity = 5;
+        arr = new T[5];
+        nextIndex = 0;
     }
-    ~Node()
+    ~stack()
     {
-        delete next;
     }
+    void push(T);
+    void pop();
+    T top();
+    int size();
+    bool empty();
 };
 
 template <typename T>
-
-class StackUsingLL
+void stack<T>::push(T element)
 {
-
-    Node<T> *head; // head that stores the stack
-    int size;
-
-public:
-    StackUsingLL()
+    if (nextIndex == capacity)
     {
-        head = NULL;
-        size = 0;
-    }
-
-    // Return the current size of the stack
-    int getSize()
-    {
-        return size;
-    }
-
-    // Check whether stack is empty or not
-    bool isEmpty()
-    {
-        return head == NULL;
-    }
-
-    // Insert element at the end of the list
-    void push(T element)
-    {
-        Node<T> *newnode = new Node<T>(element);
-        if (head == NULL)
+        int *newArr = new T[2 * capacity];
+        for (int i = 0; i < capacity; i++)
         {
-            head = newnode;
-            size++;
+            newArr[i] = arr[i];
         }
-        else
-        {
-            newnode->next = head;
-            head = newnode;
-            size++;
-        }
+        delete[] arr;
+        arr = newArr;
+        capacity = 2 * capacity;
     }
+    arr[nextIndex] = element;
+    nextIndex++;
+}
 
-    // Pop element from stack
-    int pop()
+template <typename T>
+void stack<T>::pop()
+{
+    if (nextIndex == 0)
     {
-        if (head == NULL)
-        {
-            cout << "Stack is Empty\n";
-            return -1;
-        }
-        Node<T> *temp;
-        temp = head;
-        head = head->next;
-        temp->next = NULL;
-        int pop_data = temp->data;
-        size--;
-        free(temp);
-        return pop_data;
+        cout << "\nStack is empty" << endl;
+        return;
     }
+    nextIndex--;
+}
 
-    int top()
+template <typename T>
+T stack<T>::top()
+{
+    if (nextIndex <= 0)
     {
-        if (head == NULL)
-        {
-            cout << "Stack is Empty\n";
-            return -1;
-        }
-        return head->data;
+        cout << "\nStack is empty";
+        return 0;
     }
-};
 
-// 1 8 y 1 9 y 4 y 2 y 3 y 1 7 y 1 9 y 3 y 5
+    return arr[nextIndex - 1];
+}
+
+template <typename T>
+int stack<T>::size()
+{
+    return nextIndex;
+}
+
+template <typename T>
+bool stack<T>::empty()
+{
+    return (nextIndex == 0);
+}
+
 int main()
 {
-    StackUsingLL<int> st;
-    cout << "MENU" << endl;
-    cout << "1. INSERT ELEMENT" << endl;
-    cout << "2. POP ELEMENT" << endl;
-    cout << "3. DISPLAY TOP ELEMENT" << endl;
-    cout << "4. SIZE" << endl;
-    cout << "5. CHECK EMPTY OR NOT" << endl;
-    int choice;
-    char ch;
-    do
+    stack<int> s;
+    int i = 1;
+    cout << "Enter elements of stack, enter -1 to terminate : " << endl;
+    cout << "Enter element "
+         << i
+         << " : ";
+
+    int data;
+    cin >> data;
+    while (data != -1)
     {
-        cout << "\nInsert Choice: ";
-        cin >> choice;
-        switch (choice)
+        s.push(data);
+        i++;
+        cout << "Enter element "
+             << i
+             << " : ";
+        cin >> data;
+    }
+    char ch;
+    cout << "\nWant to perform any operations on the linked list? (y/n) : ";
+    cin >> ch;
+
+    while (ch == 'y' || ch == 'Y')
+    {
+        cout << "\nPERFORM OPERATIONS ON STACK :";
+
+        cout << "\n1. Insert element to stack";
+        cout << "\n2. Delete top of stack";
+        cout << "\n3. Get top of stack";
+        cout << "\n4. Get size of stack";
+        cout << "\n5. Check is stack empty";
+
+        int option;
+        cout << "\n\nEnter the operation you want to peform : ";
+        cin >> option;
+
+        switch (option)
         {
         case 1:
-            cout << "Insert Element: ";
-            int element;
-            cin >> element;
-            st.push(element);
+        {
+            cout << "\nEnter element "
+                 << " : ";
+
+            cin >> data;
+            s.push(data);
+            cout << "\nTop of stack now is : " << s.top();
+            cout << endl;
             break;
-        case 2:
-            cout << "Deleted Element: " << st.pop() << "\n";
-            break;
-        case 3:
-            cout << "Top Element: " << st.top() << "\n";
-            break;
-        case 4:
-            cout << "Current Size: " << st.getSize() << "\n";
-            break;
-        case 5:
-            cout << "Stack is " << ((st.isEmpty()) ? "empty\n" : "not empty\n");
-            break;
-        default:
-            cout << "INVALID CHOICE!!";
         }
-        cout << "\nPerform more operations? (y/n) : ";
+        case 2:
+        {
+            cout << "\nTop of stack initially is : " << s.top();
+            cout << endl;
+            s.pop();
+            if (!s.empty())
+                cout << "\nTop of stack after popping is : " << s.top();
+            else
+                cout << "\nStack is now empty";
+            cout << endl;
+            break;
+        }
+        case 3:
+        {
+            if (!s.empty())
+                cout << "\nTop of stack is : " << s.top();
+            cout << endl;
+            break;
+        }
+        case 4:
+        {
+            cout << "\nSize of stack is : " << s.size();
+            cout << endl;
+            break;
+        }
+        case 5:
+        {
+            if (s.empty())
+                cout << "\nStack is empty" << endl;
+            else
+                cout << "\nStack is not empty" << endl;
+            break;
+        }
+        default:
+            cout << "\nInvalid option!!!\n";
+        }
+
+        cout << "\nWant to perform any more operations on the tree? (y/n) : ";
         cin >> ch;
-    } while (ch == 'Y' || ch == 'y');
+    }
+
+    cout << "\nGood Bye :(\n"
+         << endl;
 }

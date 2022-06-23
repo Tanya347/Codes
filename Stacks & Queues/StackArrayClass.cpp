@@ -3,130 +3,175 @@
 using namespace std;
 
 template <typename T>
-class StackArrayClass
+class stack
 {
 private:
-    T *data;       // Dynamically Allocated Array for storing the stack
-    int nextIndex; // the index of the topmost element
-    int capacity;  // the total size of the stack
+    T *arr;
+    int nextIndex;
+    int capacity;
 
 public:
-    StackArrayClass(int size)
+    stack()
     {
-        data = new T[size];
+        capacity = 5;
+        arr = new T[5];
         nextIndex = 0;
-        capacity = size;
     }
-
-    // return current size of the stack
-
-    int getSize()
+    ~stack()
     {
-        return nextIndex;
     }
-
-    // checks whether array is empty or not
-
-    bool isEmpty()
-    {
-        return nextIndex == 0;
-    }
-
-    // insert element into the stack
-
-    void push(T element)
-    {
-        if (nextIndex == capacity)
-        {
-            /*cout<< "Stack full"<<endl;
-            return;*/
-
-            T *newData = new T[2 * capacity];
-            for (int i = 0; i < capacity; i++)
-            {
-                newData[i] = data[i];
-                capacity = 2 * capacity;
-                delete[] data;
-                data = newData;
-            }
-        }
-        data[nextIndex] = element;
-        nextIndex++;
-    }
-
-    // delete element from stack
-
-    T pop()
-    {
-
-        if (isEmpty())
-        {
-            cout << "Stack is empty" << endl;
-            return 0;
-        }
-        nextIndex--;
-        return data[nextIndex];
-    }
-
-    // top element
-
-    T top()
-    {
-        if (isEmpty())
-        {
-            cout << "Stack is empty" << endl;
-            return 0;
-        }
-        return data[nextIndex - 1];
-    }
+    void push(T);
+    void pop();
+    T top();
+    int size();
+    bool empty();
 };
 
-// 5 y 1 8 y 1 4 y 1 3 y 3 y 2 y 4 y 5
+template <typename T>
+void stack<T>::push(T element)
+{
+    if (nextIndex == capacity)
+    {
+        int *newArr = new T[2 * capacity];
+        for (int i = 0; i < capacity; i++)
+        {
+            newArr[i] = arr[i];
+        }
+        delete[] arr;
+        arr = newArr;
+        capacity = 2 * capacity;
+    }
+    arr[nextIndex] = element;
+    nextIndex++;
+}
+
+template <typename T>
+void stack<T>::pop()
+{
+    if (nextIndex == 0)
+    {
+        cout << "\nStack is empty" << endl;
+        return;
+    }
+    nextIndex--;
+}
+
+template <typename T>
+T stack<T>::top()
+{
+    if (nextIndex <= 0)
+    {
+        cout << "\nStack is empty";
+        return 0;
+    }
+
+    return arr[nextIndex - 1];
+}
+
+template <typename T>
+int stack<T>::size()
+{
+    return nextIndex;
+}
+
+template <typename T>
+bool stack<T>::empty()
+{
+    return (nextIndex == 0);
+}
 
 int main()
 {
-    cout << "Enter the size of the stack you want to create: " << endl;
-    int size;
-    cin >> size;
-    StackArrayClass<int> st(size);
+    stack<int> s;
+    int i = 1;
+    cout << "Enter elements of stack, enter -1 to terminate : " << endl;
+    cout << "Enter element "
+         << i
+         << " : ";
 
-    cout << "MENU" << endl;
-    cout << "1. INSERT ELEMENT" << endl;
-    cout << "2. POP ELEMENT" << endl;
-    cout << "3. DISPLAY TOP ELEMENT" << endl;
-    cout << "4. SIZE" << endl;
-    cout << "5. CHECK EMPTY OR NOT" << endl;
-
-    int choice;
-    char ch;
-    do
+    int data;
+    cin >> data;
+    while (data != -1)
     {
-        cout << "\nEnter your choice: \n";
-        cin >> choice;
-        switch (choice)
+        s.push(data);
+        i++;
+        cout << "Enter element "
+             << i
+             << " : ";
+        cin >> data;
+    }
+    char ch;
+    cout << "\nWant to perform any operations on the linked list? (y/n) : ";
+    cin >> ch;
+
+    while (ch == 'y' || ch == 'Y')
+    {
+        cout << "\nPERFORM OPERATIONS ON STACK :";
+
+        cout << "\n1. Insert element to stack";
+        cout << "\n2. Delete top of stack";
+        cout << "\n3. Get top of stack";
+        cout << "\n4. Get size of stack";
+        cout << "\n5. Check is stack empty";
+
+        int option;
+        cout << "\n\nEnter the operation you want to peform : ";
+        cin >> option;
+
+        switch (option)
         {
         case 1:
-            cout << "Enter the element you want to insert: ";
-            int element;
-            cin >> element;
-            st.push(element);
+        {
+            cout << "\nEnter element "
+                 << " : ";
+
+            cin >> data;
+            s.push(data);
+            cout << "\nTop of stack now is : " << s.top();
+            cout << endl;
             break;
-        case 2:
-            cout << "The deleted Element: " << st.pop() << "\n";
-            break;
-        case 3:
-            cout << "The top Element: " << st.top() << "\n";
-            break;
-        case 4:
-            cout << "The current Size: " << st.getSize() << "\n";
-            break;
-        case 5:
-            cout << "The array is " << ((st.isEmpty()) ? "Empty\n" : "Non-Empty\n");
-            break;
-        default:
-            cout << "INVALID CHOICE!!";
         }
-        cout << "\nPerform more operations? (y/n) : ";
+        case 2:
+        {
+            cout << "\nTop of stack initially is : " << s.top();
+            cout << endl;
+            s.pop();
+            if (!s.empty())
+                cout << "\nTop of stack after popping is : " << s.top();
+            else
+                cout << "\nStack is now empty";
+            cout << endl;
+            break;
+        }
+        case 3:
+        {
+            if (!s.empty())
+                cout << "\nTop of stack is : " << s.top();
+            cout << endl;
+            break;
+        }
+        case 4:
+        {
+            cout << "\nSize of stack is : " << s.size();
+            cout << endl;
+            break;
+        }
+        case 5:
+        {
+            if (s.empty())
+                cout << "\nStack is empty" << endl;
+            else
+                cout << "\nStack is not empty" << endl;
+            break;
+        }
+        default:
+            cout << "\nInvalid option!!!\n";
+        }
+
+        cout << "\nWant to perform any more operations on the stack? (y/n) : ";
         cin >> ch;
-    } while (ch == 'Y' || ch == 'y');
+    }
+
+    cout << "\nGood Bye :(\n"
+         << endl;
 }

@@ -31,6 +31,12 @@ int countSubset(vector<int> &nums, int diff) {
     for(int i = 0; i < nums.size(); i++) {
         sum += nums[i];
     }
+        
+    // sum(subset1) + sum(subset2) = sum(arr)
+    // sum(subset1) - sum(subset2) = diff
+    // from these equations we get sum(subset1) = (diff + sum)/2
+    // we only need to count number of subsets with sum1 because 
+    // the other subset will by default have value sum - sum1
     
     int subsetsum = (diff + sum)/2;
   

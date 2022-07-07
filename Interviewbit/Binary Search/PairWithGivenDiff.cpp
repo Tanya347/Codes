@@ -130,3 +130,26 @@ int Solution::solve(vector<int> &A, int B) {
     
     return false;
 }
+
+/********************************************************************** APPROACH 3 **************************************************************************************/
+
+// TWO POINTERS
+// TIME COMPLEXITY = O(nlogn  + n)
+
+
+int Solution::solve(vector<int> &A, int B) {
+    sort(A.begin(), A.end());
+    
+    int i = 0, j = 1;
+    
+    for(int i = 0; i < A.size(); i++) {
+        if(A[j] - A[i] == B)
+            return 1;
+        else if(A[j] - A[i] < B) 
+            j++;
+        else 
+            i++;
+    }
+    
+    return 0;
+}

@@ -8,4 +8,4 @@ Algorithm:
     * Mark the current node as visited and also mark the index in recursion stack.
     * Find all the vertices which are not visited and are adjacent to current node. Recursively call the function for those vertices, If the recursive function returns true return true.
     * If the adjacent vertices are already marked in the recursion stack then return true.
-    * Create a wrapper class, that calls the recursive function for all the vertices and if any function returns true return true. Else if for all 
+    * If we reach below the loop that means all nodes adjacent to current one were visited but no cycle was found, hence mark this once false in recursion stack and return false

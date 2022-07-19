@@ -1,12 +1,31 @@
+/********************************************************************** BRUTE FORCE **************************************************************************************/
+
+/*
+
+Problem Description
+Given a read only array of n + 1 integers between 1 and n, find one number that repeats in linear time using less than O(n) space and traversing the stream sequentially O(1) times.
+
+Sample Input:
+
+[3 4 1 4 1]
+
+Sample Output:
+
+1
+
+If there are multiple possible answers ( like in the sample case above ), output any one.
+
+If there is no duplicate, output -1
+
+*/
+
+/********************************************************************** BRUTE FORCE **************************************************************************************/
+
 int Solution::repeatedNumber(const vector<int> &A) {
     
     int j = 0;
     vector<int> B = A;
     
-    // we use the fact that value of elements in array are less than n hence we can use them as indexes
-    // what we are doing is we extract whatever is present at a particular index and make it the next index
-    // and mark whatever is present at current index as -1, this way if a duplicate element exists then it will
-    // send us to an index again which was already marked as -1 by the other duplicate
     while(B[j] != -1) {
         int k = B[j];
         B[j] = -1;

@@ -90,6 +90,8 @@ Explanation 2:
 
 /********************************************************************** ANSWER **************************************************************************************/
 
+// DFS
+
 bool dfs(int A, vector<int> graph[], vector<bool>& visited, int index) {
     if(index == A)
         return true;
@@ -116,4 +118,37 @@ int Solution::solve(int A, vector<vector<int> > &B) {
     vector<bool> visited(A + 1, false); 
     
     return dfs(A, graph, visited, 1);
+}
+
+// BFS
+
+int Solution::solve(int A, vector<vector<int> > &B) {
+    vector<int> graph[A + 1];
+    for(int i = 0; i < B.size(); i++) {
+        int u = B[i][0];
+        int v = B[i][1];
+        graph[u].push_back(v);
+    }
+    
+    vector<bool> visited(A + 1, false); 
+    
+    queue<int> q;
+    q.push(1);
+    
+    while(!q.empty()) {
+        int node = q.front();
+        q.pop();
+        visited[node] = true;
+        
+        if(node == A)
+        return true;
+        
+        for(auto i: graph[node]) {
+            if(!visited[i]) {
+                q.push(i);
+            }
+        }
+    }
+    
+    return false;
 }

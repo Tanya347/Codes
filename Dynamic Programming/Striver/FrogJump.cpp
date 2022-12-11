@@ -89,3 +89,19 @@ class Solution {
 
 /********************************************************************** DP **************************************************************************************/
 
+class Solution {
+  public:
+    int minimumEnergy(vector<int>& height, int n) {
+        // Code here
+        
+        vector<int> dp(n + 1, 0);
+        
+        dp[2] = abs(height[1] - height[0]);
+        
+        for(int i = 3; i < n + 1; i++) {
+            dp[i] = min(dp[i - 1] + abs(height[i - 1] - height[i - 2]), dp[i - 2] + abs(height[i -1] - height[i - 3]));
+        }
+        
+        return dp[n];
+    }
+};

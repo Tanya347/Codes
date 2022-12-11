@@ -98,6 +98,7 @@ class Solution {
         
         dp[2] = abs(height[1] - height[0]);
         
+        // dp array is according to 1 indexing but height array is according to 0 indexing hence we are taking i - 1 instead of i to get energy
         for(int i = 3; i < n + 1; i++) {
             dp[i] = min(dp[i - 1] + abs(height[i - 1] - height[i - 2]), dp[i - 2] + abs(height[i -1] - height[i - 3]));
         }

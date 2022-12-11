@@ -29,6 +29,7 @@ Constraint:
 
 /********************************************************************** RECURSION **************************************************************************************/
 
+// Approach 1
 class Solution {
   public:
     int minimumEnergy(vector<int>& height, int n) {
@@ -47,6 +48,22 @@ class Solution {
         return min(x, y);
     }
 };
+
+// Approach 2
+int minimumEnergy(vector<int>& height, int n) {
+        // Code here
+        if(n == 1)
+            return 0;
+        
+        int x = minimumEnergy(height, n - 1) + abs(height[n - 1] - height[n - 2]);
+        
+        int y = INT_MAX;
+        
+        if(n > 2)
+            y = minimumEnergy(height, n - 2) + abs(height[n - 1] - height[n - 3]);
+            
+        return min(x, y);
+}
 
 /********************************************************************** MEMOISATION **************************************************************************************/
 

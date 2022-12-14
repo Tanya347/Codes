@@ -35,7 +35,10 @@ class Solution {
     int maximumPoints(vector<vector<int>>& points, int day, int last) {
         
         int maxi = 0;
-        //base case
+      
+        // base case, when only 1 day is left then excluding the last activity we just pick the max, 
+        // in case in input itself day was 1 then we just pick max of all three
+      
         if(day == 0) {
             for(int i = 0; i <= 2; i++) {
                 if(i != last)
@@ -44,6 +47,7 @@ class Solution {
             return maxi;
         }
             
+        // based on what last was, we pick the current activity and make it last for next day
         for(int i = 0; i <= 2; i++) {
             if(i != last) 
                 maxi = max(maxi, points[day][i] + maximumPoints(points, day - 1, i));
@@ -111,17 +115,59 @@ class Solution {
         
         for(int day = 1; day < n; day++) {
             for(int last = 0; last < 4; last++) {
-                
+                // this means for this particular day what last we are choosing i.e. the task chosen from 
+                // previous day
                 dp[day][last] = 0;
                 
                 for(int task = 0; task < 3; task++) {
                     if(last != task)
+                    // task is the last for the previous row, hence we are adding its points and then
+                    // adding whatever is present in dp for column as task as columns signify last.
                     dp[day][last] = max(dp[day][last], points[day][task] + dp[day - 1][task]);
                 }
             }
         }
         
+        // the task of the last column in each row was to find max of all the possible paths
         return dp[n - 1][3];
+    }
+  
+};
+
+/********************************************************************** SPACE OPTIMIZATION **************************************************************************************/
+
+class Solution {
+  public:
+  
+    int maximumPoints(vector<vector<int>>& points, int n) {
+        
+      // as we required only the last row in every iteration we can replace the dp array to only one row of size 4
+        vector<int> prev(4, 0);
+        
+        prev[0] = max(points[0][1], points[0][2]);
+        prev[1] = max(points[0][0], points[0][2]);
+        prev[2] = max(points[0][1], points[0][0]);
+        prev[3] = max(points[0][0], max(points[0][1], points[0][2]));
+        
+        for(int day = 1; day < n; day++) {
+            
+          // temp stores current computation derived with the help of prev
+            vector<int> temp(4, 0);
+            for(int last = 0; last < 4; last++) {
+                
+                temp[last] = 0;
+                
+                for(int task = 0; task < 3; task++) {
+                    if(last != task)
+                    temp[last] = max(temp[last], points[day][task] + prev[task]);
+                }
+            }
+            
+          // make prev as temp for next computation
+            prev = temp;
+        }
+        
+        return prev[3];
     }
   
 };

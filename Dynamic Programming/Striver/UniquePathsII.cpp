@@ -45,12 +45,11 @@ public:
         int m = obstacleGrid.size();
         int n = obstacleGrid[0].size();
 
-        if((i == m && j != n) || (i != m && j == n))
+        // if we exceed array bounds or if the grid is blocked just return 0
+        if(i == m || j == n || obstacleGrid[i][j] == 1)
             return 0;
-            
-        if(obstacleGrid[i][j] == 1)
-            return 0;
-
+        
+        // if we reach destination return 1
         if(i == m - 1 && j == n - 1)
             return 1;
 
@@ -58,7 +57,8 @@ public:
     }
 
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-
+        
+        // if destination itself is blocked there is no path
         if(obstacleGrid[obstacleGrid.size() - 1][obstacleGrid[0].size() - 1] == 1)
             return 0;
         else
@@ -73,7 +73,7 @@ public:
 
     int uniquePaths(vector<vector<int>>& obstacleGrid, int i, int j, int m, int n, vector<vector<int>>& dp) {
         
-        if((i == m && j != n) || (i != m && j == n) || obstacleGrid[i][j] == 1) {
+        if(i == m || j == n || obstacleGrid[i][j] == 1) {
             dp[i][j] = 0;
             return dp[i][j];
         }
@@ -105,3 +105,26 @@ public:
 };
 
 /********************************************************************** DP **************************************************************************************/
+
+class Solution {
+public:
+    
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+
+        int m = obstacleGrid.size();
+        int n = obstacleGrid[0].size();
+
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+        // doing this so that there's 1 for padding, it just starts off the chain of answers
+        dp[0][1] = 1;
+
+        for(int i = 1; i <= m; i++) {
+            for(int j = 1; j <= n; j++) {
+                if(!obstacleGrid[i - 1][j - 1])
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        } 
+
+        return dp[m][n];
+    }
+};

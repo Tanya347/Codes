@@ -111,3 +111,45 @@ public:
         return dp[m - 1][n - 1];
     }
 };
+
+/********************************************************************** DP WITH 2 ROWS***************************************************************************/
+
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        
+        // only two rows are functional hence take only two rows
+        vector<int> prev(n, 1), curr(n, 1);
+
+        for(int i = 1; i < m; i++) {
+            for(int j = 1; j < n; j++) {
+                curr[j] = prev[j] + curr[j - 1];
+            }
+
+            // since one row has new data the other row must now be used to utilize that data
+            swap(prev, curr);
+        }
+
+        // every time we're switching we are operating on curr so answer is with curr
+        // but after final swap curr will become prev
+        return prev[n - 1];
+    }
+};
+
+/********************************************************************** DP WITH 1 ROW *********************************************************************************/
+
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        
+        vector<int> dp(n, 1);
+
+        for(int i = 1; i < m; i++) {
+            for(int j = 1; j < n; j++) {
+                dp[j] += dp[j - 1];
+            }
+        }
+
+        return dp[n - 1];
+    }
+};

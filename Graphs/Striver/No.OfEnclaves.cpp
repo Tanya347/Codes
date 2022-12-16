@@ -77,3 +77,51 @@ public:
 
 /********************************************************************** BFS **************************************************************************************/
 
+class Solution {
+public:
+    
+    int numEnclaves(vector<vector<int>>& grid) {
+        
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        // visit all components that are connected to boundary and mark them visited by making them 0
+        queue<pair<int, int>> q;
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if((i == 0 || j == 0 || i == m - 1 || j == n - 1) && grid[i][j] == 1)
+                    q.push({i, j});
+            }
+        }
+
+        // perform bfs
+        while(!q.empty()) {
+            int x = q.front().first;
+            int y = q.front().second;
+            grid[x][y] = 0;
+            q.pop();
+
+            int arr[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+
+            for(int k = 0; k < 4; k++) {
+                int nx = x + arr[k][0];
+                int ny = y + arr[k][1];
+                if(nx >= 0 && ny >= 0 && nx < m && ny < n && grid[nx][ny] == 1) {
+                    q.push({nx, ny});
+                }
+            }
+        }
+        
+        // now the 1's left are the answers
+        int count = 0;
+        for(int i = 0; i < grid.size(); i++) {
+            for(int j = 0; j < grid[i].size(); j++) {
+                if(grid[i][j] == 1)
+                    count++;
+            }    
+        }
+        
+        return count;
+        
+    }
+};

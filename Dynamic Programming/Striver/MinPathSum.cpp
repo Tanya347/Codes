@@ -31,6 +31,8 @@ Constraints:
 
 /********************************************************************** BRUTE FORCE ************************************************************************************/
 
+// TC: 2^m*n
+
 class Solution {
 public:
 
@@ -56,6 +58,10 @@ public:
 };
 
 /********************************************************************** MEMOIZATION *******************************************************************************/
+
+// TC: O(N*M)
+// SC: O((M-1)+(N-1)) + O(N*M)
+// Reason: We are using a recursion stack space:O((M-1)+(N-1)), here (M-1)+(N-1) is the path length and an external DP Array of size ‘N*M’.
 
 class Solution {
 public:
@@ -89,6 +95,9 @@ public:
 };
 
 /********************************************************************** DP **************************************************************************************/
+
+// TC: O(N*M)
+// SC: O(N*M)
 
 // two ways this one is more intuitive if we code according to the recursion approach
 int minPathSum(vector<vector<int>>& grid) {
@@ -149,6 +158,9 @@ int minPathSum(vector<vector<int>>& grid) {
 };
 
 /********************************************************************** OPTIMIZED SPACE ******************************************************************************/
+
+// TC: O(N*M)
+// SC: O(N)
 
 class Solution {
 public:

@@ -30,16 +30,13 @@ Explanation: There is no subset with sum 30.
 
 bool isSubsetSum_Helper(vector<int>arr, int sum, int i) {
         
-        //if we have reached end of array and sum is 0 as well then return true else return false
-        if(i == arr.size()) {
-            if(sum == 0)
-                return true;
-            else return false;
-        }
-        
         //if sum has become 0 return true
         if(sum == 0)
             return true;
+        
+        //if we have reached end of array return false
+        if(i == arr.size()) 
+            return false;
         
         //if current element less than or equal to sum then only consider including
         if(arr[i] <= sum)
@@ -59,14 +56,13 @@ bool isSubsetSum_Helper(vector<int>arr, int sum, int i) {
 
 
 bool isSubsetSum_Helper(vector<int>arr, int sum, int i, vector<vector<int>>& mem) {
-        if(i == arr.size()) {
-            if(sum == 0)
-                return true;
-            else return false;
+        if(sum == 0) {
+            return mem[i][sum] = 1;
         }
         
-        if(sum == 0)
-            return true;
+        if(i == arr.size()) {
+            return mem[i][sum] = 0;
+        }
         
         if(mem[i][sum] != -1)
             return mem[i][sum];

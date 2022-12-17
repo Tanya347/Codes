@@ -40,6 +40,9 @@ Constraints:
 
 /********************************************************************** SPACE OPTIMIZED *********************************************************************************/
 
+// TC = O(M*N*4 + M*N) ~ O(M*N) (since we are travelling to every element in the grid)
+// SC = O(M*N) (for worst case when all oranges are rotten then queue will have M*N elements)
+
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
@@ -100,8 +103,83 @@ public:
     }
 };
 
-/**********************************************************************MY STUPID CODE **************************************************************************************/
+/********************************************************************** ANOTHER METHOD **************************************************************************************/
 
+// TC = O(M*N*4 + M*N) ~ O(M*N)
+// SC = O(M*N) (for worst case when all oranges are rotten then queue will have M*N elements)
+
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        
+        int n = grid.size();
+        int m = grid[0].size();
+
+        // store {{row, column}, time}
+        queue < pair < pair < int, int > , int >> q;
+    
+        int cntFresh = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == 2) {
+                    q.push({{i, j}, 0}); 
+                }
+
+                // count fresh oranges
+                if (grid[i][j] == 1) cntFresh++;
+            }
+        }
+
+        int tm = 0;
+        // delta row and delta column
+        int drow[] = {-1, 0, +1, 0};
+        int dcol[] = {0, 1, 0, -1}; 
+        int cnt = 0;
+
+        // bfs traversal (until the queue becomes empty)
+        while (!q.empty()) {
+            int r = q.front().first.first;
+            int c = q.front().first.second;
+            int t = q.front().second;
+            tm = max(tm, t);
+            q.pop();
+            
+            // exactly 4 neighbours 
+            for (int i = 0; i < 4; i++) {
+                // neighbouring row and column
+                int nrow = r + drow[i];
+                int ncol = c + dcol[i];
+                // check for valid cell and 
+                // then for unvisited fresh orange
+                if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m  && grid[nrow][ncol] == 1) {
+                    // push in queue with timer increased
+                    q.push({{nrow, ncol}, t + 1}); 
+                    grid[nrow][ncol] = 2;
+                    // oranges that become rotten
+                    cnt++;
+                }
+            }
+        }
+
+        // if all oranges are not rotten
+        if (cnt != cntFresh) return -1;
+
+        return tm;
+
+    }
+};
+
+/********************************************************************** EXPLANATION **************************************************************************************/
+
+- here instead of making a pair for indices we are also including a field for time, that increments for every level
+- The pairs of cell number and initial time, i.e., <<row, column>, time> will be pushed in the queue and marked as visited (represents rotten) in the visited array. For example, ((2,0), 0) represents cell (2, 0) and initial time 0.  
+- count the fresh oranges and also maintain a count of the oranges that we make rotten and if they are not equal that means not all oranges have been made rotten hence return -1
+
+/********************************************************************** MY STUPID CODE **************************************************************************************/
+
+// TC = O(M*N*4 + 2*M*N) ~ O(M*N)
+// SC = O(M*N + M*N + 15) ~ O(M*N) 
+    
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {

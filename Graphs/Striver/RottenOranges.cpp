@@ -38,15 +38,16 @@ Constraints:
 
 */
 
-/********************************************************************** BRUTE FORCE **************************************************************************************/
+/********************************************************************** SPACE OPTIMIZED *********************************************************************************/
 
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
 
-        if(grid.empty()) return 0;
-
         queue<pair<int, int>> rotten;
+        // count is for maintaining the count of oranges that we make rotten
+        // time is for counting the time taken
+        // total is the total no. of oranges in the matrix
         int count = 0, time = 0, total = 0;
 
         int m = grid.size();
@@ -54,6 +55,8 @@ public:
 
         for(int i = 0; i < grid.size(); i++) {
             for(int j = 0; j < grid[i].size(); j++) {
+                
+                // insert the indices of rotten oranges as we will perform bfs on them
                 if(grid[i][j] == 2) 
                     rotten.push({i, j});
 
@@ -63,7 +66,8 @@ public:
         }
 
         while(!rotten.empty()) {
-
+            
+            // find the number of rotten oranges in each level and add it to count
             int k = rotten.size();
             count += k;
 
@@ -86,15 +90,17 @@ public:
                     }
                 }
             }
-
+            
+            // for each level increment time only if queue is not empty, if it is that means all oranges have already been made rotten 
             if(!rotten.empty()) time++;
         }
 
+        // if count is not equal to total that means it is not possible to make all oranges rotten hence return -1
         return (count == total)? time : -1;
     }
 };
 
-/********************************************************************** BRUTE FORCE **************************************************************************************/
+/**********************************************************************MY STUPID CODE **************************************************************************************/
 
 class Solution {
 public:
@@ -161,5 +167,20 @@ public:
     }
 };
 
+/********************************************************************** EXPLANATION **************************************************************************************/
 
+-So upon seeing simultaneous traversal BFS came to mind
 
+-So I started storing all cells with rotten oranges in the queue first and then thought of performing BFS on them one by one and making all oranges rotten
+
+-But if I performed one by one and kept incrementing the time it would be wrong as oranges on same levels are becoming rotten simultaneously
+
+-So I thought of storing each cell’s level and maintaining a check whether this level has been visited or not
+    
+-If the level is greater than 0 (0 level stands for already rotten oranges which should not contribute to time) and it has not been visited then increment minutes
+
+-While visiting neighbors check whether it is a normal orange and also whether it lies within the ranges. 
+    
+-After making the rotten orange push the cell to queue and update its level which will be parent’s level + 1
+    
+-After performing BFS check if there is still a normal orange since that means making all oranges rotten is not possible and hence return –1

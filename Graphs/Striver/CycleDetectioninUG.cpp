@@ -42,6 +42,9 @@ Constraints:
 
 /********************************************************************** BFS **************************************************************************************/
 
+// TC: O(N + 2E) + O(N), Where N = Nodes, 2E is for total degrees as we traverse all adjacent nodes. In the case of connected components of a graph, it will take another O(N) time.
+// SC: O(N) + O(N) ~ O(N), Space for queue data structure and visited array.
+
 class Solution {
 public:
     
@@ -67,6 +70,9 @@ public:
 };
 
 /********************************************************************** DFS **************************************************************************************/
+
+// TC: O(N + 2E) + O(N), Where N = Nodes, 2E is for total degrees as we traverse all adjacent nodes. In the case of connected components of a graph, it will take another O(N) time.
+// SC: O(N) + O(N) ~ O(N), Space for recursive stack space and visited array.
 
 class Solution {
   public:

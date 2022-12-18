@@ -104,6 +104,30 @@ public:
 
 /********************************************************************** DP **************************************************************************************/
 
+// striver
+
+int minimumPathSum(vector<vector<int> > &triangle, int n){
+    vector<vector<int> > dp(n,vector<int>(n,0));
+    
+    for(int j=0;j<n;j++){
+        dp[n-1][j] = triangle[n-1][j];
+    }
+    
+    for(int i=n-2; i>=0; i--){
+        for(int j=i; j>=0; j--){
+            
+            int down = triangle[i][j]+dp[i+1][j];
+            int diagonal = triangle[i][j]+dp[i+1][j+1];
+            
+            dp[i][j] = min(down, diagonal);
+        }
+    }
+    
+    return dp[0][0];
+    
+}
+
+// mine
 class Solution {
 public:
 
@@ -140,6 +164,29 @@ public:
             ans = min(ans, dp[m - 1][i]);
         
         return ans;
+    }
+};
+
+/********************************************************************** SPACE OPT 1 ROW **************************************************************************************/
+
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int m = triangle.size();
+        int n = triangle[m - 1].size();
+        vector<int> curr(n, 0);
+
+        for(int i = 0; i < n; i++) {
+            curr[i] = triangle[m - 1][i];
+        }
+
+        for(int i = m - 2; i >= 0; i--) {
+            for(int j = 0; j < i + 1; j++) {
+                curr[j] = triangle[i][j] + min(curr[j], curr[j + 1]); 
+            }
+        }
+
+        return curr[0];
     }
 };
 

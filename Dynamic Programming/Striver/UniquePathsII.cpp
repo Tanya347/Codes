@@ -137,3 +137,114 @@ public:
         return dp[m][n];
     }
 };
+
+class Solution {
+public:
+    
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+
+        int m = obstacleGrid.size();
+        int n = obstacleGrid[0].size();
+
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+    
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+
+                if(obstacleGrid[i][j] == 1) {
+                    dp[i][j] = 0;
+                    continue;
+                }
+
+                if(i == 0 && j == 0)
+                    dp[i][j] = 1;
+
+                else if(!obstacleGrid[i][j]) {
+                    int up = 0, left = 0;
+                    if(i >= 1)
+                        up = dp[i - 1][j];
+                    if(j >= 1)
+                        left = dp[i][j - 1];
+                    dp[i][j] = left + up;
+                }
+            }
+        } 
+
+        return dp[m - 1][n - 1];
+    }
+};
+
+/********************************************************************** SPACE OPT 2 ROWS ***************************************************************************/
+
+class Solution {
+public:
+    
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+
+        int m = obstacleGrid.size();
+        int n = obstacleGrid[0].size();
+
+        vector<int> prev(n, 0);
+
+        for(int i = 0; i < m; i++) {
+            
+            vector<int> curr(n, 0);
+            for(int j = 0; j < n; j++) {
+
+                if(obstacleGrid[i][j] == 1) {
+                    curr[j] = 0;
+                    continue;
+                }
+
+                if(i == 0 && j == 0)
+                    curr[j] = 1;
+
+                else if(!obstacleGrid[i][j]) {
+                    int up = 0, left = 0;
+                    if(i >= 1)
+                        up = prev[j];
+                    if(j >= 1)
+                        left = curr[j - 1];
+                    curr[j] = left + up;
+                }
+            }
+            prev = curr;
+        } 
+
+        return prev[n - 1];
+    }
+};
+
+/********************************************************************** SPACE OPT 1 ROW *********************************************************************************/
+
+class Solution {
+public:
+    
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+
+        int m = obstacleGrid.size();
+        int n = obstacleGrid[0].size();
+
+        vector<int> dp(n, 0);
+
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+
+                if(obstacleGrid[i][j] == 1) {
+                    dp[j] = 0;
+                    continue;
+                }
+
+                if(i == 0 && j == 0)
+                    dp[j] = 1;
+
+                else if(!obstacleGrid[i][j]) {
+                    if(j >= 1)
+                        dp[j] += dp[j - 1];
+                }
+            }
+        } 
+
+        return dp[n - 1];
+    }
+};

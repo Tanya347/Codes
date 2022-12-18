@@ -128,7 +128,43 @@ public:
     }
 };
 
-/********************************************************************** SPACE OPTIMIZED ********************************************************************************/
+/********************************************************************** SPACE OPT **************************************************************************************/
+
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        
+        vector<int> prev(n, 0);
+
+        for(int i = 0; i < n; i++)
+            prev[i] = matrix[m - 1][i];
+
+        for(int i = m - 2; i >= 0; i--) {
+            vector<int> curr(n, 0);
+            for(int j = 0; j < n; j++) {
+                int x = INT_MAX, y = INT_MAX, z = INT_MAX;
+                if(j >= 1)
+                    x = prev[j - 1];
+                y = prev[j];
+                if(j < n - 1)
+                    z = prev[j + 1];
+                curr[j] = matrix[i][j] + min(x, min(y, z));
+            }
+            prev = curr;
+        }
+
+        int ans = INT_MAX;
+        for(int i = 0; i < n; i++) {
+            ans = min(ans, prev[i]);
+        }
+
+        return ans;
+    }
+};
+
+/********************************************************************** NO EXTRA SPACE ********************************************************************************/
 
 class Solution {
 public:

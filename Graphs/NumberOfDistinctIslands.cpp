@@ -142,3 +142,13 @@ int main() {
     }
 }
 // } Driver Code Ends
+
+/********************************************************************** EXPLANATION **************************************************************************************/
+
+- In this question, we had to only count distinct islands i.e. any islands with similar shape/orientation should be counted as 1
+- One approach that comes to mind is to use hashing, i.e. for every direction we take during DFS we can store a character for it in the string and then push the entire string into a map
+- If another island with the same shape is encountered then we will first check whether its hash is present in the map or not. If it is not then only push into the map
+- This way we will get the distinct islands and can simply return the size of the map
+- But hashing is not accurate as shape may be different but as the direction of traversal are same the hash turns out to be same which is wrong
+- Hence we also need to add another hash that is everytime we backtrack we need to add that as well to find distinct islands
+

@@ -43,6 +43,22 @@ Constraints:
 
 */
 
+/********************************************************************** EXPLANATION **************************************************************************************/
+
+- The explanation for leetcode is kinda complex. What it basically says is that in the two sets each node in every set should be connected to one node in the other set. 
+- Each and every edge should have one node in one set and one node in the other set
+- It can also be put this way that connections only between the set is allowed and not within a set
+
+Now a more easier way of putting it is that a bipartite graph is the one where it can be colored with two colors, with no adjacent nodes with same color. 
+    Any linear graph with no cycle is always a bipartite graph. With a cycle, any graph with an even cycle length can also be a bipartite graph. 
+    So, any graph with an odd cycle length can never be a bipartite graph.
+    
+/********************************************************************** APPROACH **************************************************************************************/
+
+- Perform normal dfs and bfs
+- Just ensure that no two adjacent nodes have the same color
+- If two adjacent nodes with same color are detected return false
+    
 /********************************************************************** BFS **************************************************************************************/
 
 class Solution {

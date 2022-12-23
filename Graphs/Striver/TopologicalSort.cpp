@@ -49,7 +49,55 @@ Constraints:
 
 */
 
-/********************************************************************** ANSWER **************************************************************************************/
+/********************************************************************** KAHN'S ALGORITHM **************************************************************************************/
+
+vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    // code here
+	    vector<int> indegree(V, 0);
+	    
+	    // finding indegree of every vertex
+	    for(int i = 0; i < V; i++) {
+	        for(auto j : adj[i])
+	            indegree[j]++;
+	    }
+	    
+	    queue<int> q;
+	    
+	    for(int i = 0; i < V; i++) {
+	        if(indegree[i] == 0)
+	            q.push(i);
+	    }
+	    
+	    vector<int> ans;
+	    
+	    while(!q.empty()) {
+	        int node = q.front();
+	        q.pop();
+	        ans.push_back(node);
+	        
+	        for(auto n : adj[node]) {
+	            indegree[n]--;
+	            if(indegree[n] == 0)
+	                q.push(n);
+	        }
+	    }
+	    
+	    return ans;
+	}
+
+/********************************************************************** EXPLANATION **************************************************************************************/
+
+- The steps include first finding the indegree of every node
+- Then we push those nodes into the queue whose indegree is 0
+- Then we run BFS on those nodes and once popping it out we push those nodes into answer array
+- Then we travel all the nodes it points to and reduce their indegrees 
+- If the indegree of a node becomes 0 we simply push it into the queue
+
+what we're basically trying to do is that we are targetting those nodes first with 0 outdegree and then we're further reaching into the depth by exploring their neigbours
+this is what topological sorting is all about
+
+/********************************************************************** ANSWER USING STACK *********************************************************************************/
 
 class Solution
 {
@@ -87,3 +135,10 @@ class Solution
 	}
 };
 
+
+/********************************************************************** EXPLANATION **************************************************************************************/
+
+- Here we are performing normal DFS
+- Only difference is that we are maintaining a stack that maintains nodes whose neighbours have been fully traversed
+- The ones that are like leafs will be pushed into the stack first and hence they will be popped out last
+- The ones that are connected to a lot of nodes will be pushed later and popped earlier

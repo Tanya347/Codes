@@ -49,7 +49,7 @@ Constraints:
 
 */
 
-/******************************************************************* ANSWER *******************************************************************************/
+/******************************************************************* BFS *******************************************************************************/
 
 class Solution{
     public:
@@ -111,3 +111,60 @@ class Solution{
         
     }
 };
+
+/******************************************************************* DFS *******************************************************************************/
+
+class Solution{
+    public:
+    
+    void dfs(int node, vector<int> adj[], stack<int>& st,  vector<int>& vis) {
+	    vis[node] = 1;
+	    for(auto it: adj[node]) {
+	        if(!vis[it])
+	            dfs(it, adj, st, vis);
+	    }
+	    st.push(node);
+	}
+	
+	string topoSort(int V, vector<int> adj[]) {
+	    // code here
+	    vector<int> vis(V, 0);
+	    stack<int> st;
+	    
+	    for(int i = 0; i < V; i++) {
+	        if(!vis[i]) {
+	            dfs(i, adj, st, vis);
+	        }
+	    }
+	    
+	    string ans;
+	    while(!st.empty()) {
+	        ans.push_back(st.top() + 'a');
+	        st.pop();
+	    }
+	    
+	    return ans;
+	}
+    
+    string findOrder(string dict[], int N, int K) {
+        //code here
+        
+        vector<int> adj[K];
+        
+        for(int i = 0; i < N - 1; i++) {
+            string s1 = dict[i];
+            string s2 = dict[i + 1];
+            int len = min(s1.length(), s2.length());
+            int j = 0;
+            while(j < len) {
+                if(s1[j] != s2[j]) {
+                    adj[s1[j] - 'a'].push_back(s2[j] - 'a');
+                    break;
+                }
+                j++;
+            }
+        }
+        
+        return topoSort(K, adj);
+        
+    }

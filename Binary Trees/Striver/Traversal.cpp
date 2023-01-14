@@ -19,6 +19,33 @@ vector <int> preorder(Node* root)
     return ans;
 }
 
+// iterative preorder using stack
+
+class Solution {
+public:
+
+    vector<int> preorderTraversal(TreeNode* root) {
+        if(root == NULL)
+            return {};
+        
+        stack<TreeNode*> st;
+        st.push(root);
+
+        vector<int> ans;
+
+        while(!st.empty()) {
+            TreeNode* node = st.top();
+            st.pop();
+            ans.push_back(node -> val);
+
+            if(node -> right) st.push(node -> right);
+            if(node -> left) st.push(node -> left);
+        }
+
+        return ans;
+    }
+};
+
 /******************************************************************* INORDER *******************************************************************************/
 
 class Solution {
@@ -36,6 +63,35 @@ class Solution {
         left.insert(left.end(), right.begin(), right.end());
         
         return left;
+    }
+};
+
+// iterative inorder using stack
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        
+        if(root == NULL)
+            return {};
+        
+        stack<TreeNode*> st;
+        TreeNode* node = root;
+        vector<int> ans;
+
+        while(true) {
+            if(node) {
+                st.push(node);
+                node = node -> left;
+            } else {
+                if(st.empty()) break;
+                node = st.top();
+                ans.push_back(node -> val);
+                st.pop();
+                node = node -> right;
+            }
+        }
+
+        return ans;
     }
 };
 

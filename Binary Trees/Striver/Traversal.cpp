@@ -111,6 +111,76 @@ vector <int> postOrder(Node* root)
     return left;
 }
 
+// using two stacks
+
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        
+        if(!root) return {};
+
+        stack<TreeNode*> s1;
+        stack<TreeNode*> s2;
+
+        s1.push(root);
+        
+        while(!s1.empty()) {
+            TreeNode* node = s1.top();
+            s1.pop();
+            if(node -> left) s1.push(node -> left);
+            if(node -> right) s1.push(node -> right);
+            s2.push(node);
+        }
+
+        vector<int> postorder;
+        while(!s2.empty()) {
+            postorder.push_back(s2.top() -> val);
+            s2.pop();
+        }
+
+        return postorder;
+    }
+};
+
+// using one stack
+
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        
+        if(!root) return {};
+
+        vector<int> postorder;
+        TreeNode* curr = root;
+        stack<TreeNode*> st;
+        
+        while(curr != NULL || !st.empty()) {
+            
+            if(curr != NULL) {
+                st.push(curr);
+                curr = curr -> left;
+            } else {
+                TreeNode* temp = st.top() -> right;
+                if(temp == NULL) {
+                    temp = st.top();
+                    st.pop();
+                    postorder.push_back(temp -> val);
+
+                    while(!st.empty() && temp == st.top() -> right) {
+                        temp = st.top();
+                        st.pop();
+                        postorder.push_back(temp -> val);
+                    }
+                }
+                else
+                    curr = temp;
+            }
+        }
+
+        return postorder;
+    }
+};
+
 /******************************************************************* LEVEL ORDER *******************************************************************************/
 
 /**

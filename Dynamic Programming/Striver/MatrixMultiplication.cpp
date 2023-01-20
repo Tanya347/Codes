@@ -74,3 +74,68 @@ public:
         return multiplication(1, N-1, arr);
     }
 };
+
+/******************************************************************* MEM *******************************************************************************/
+
+// User function Template for C++
+
+class Solution{
+public:
+
+    int multiplication(int i, int j, int arr[], vector<vector<int>>& dp) {
+        
+        if(i == j) return 0;
+        
+        int mini = 1e9;
+        
+        if(dp[i][j] != -1)
+            return dp[i][j];
+            
+        for(int k = i; k < j; k++) {
+            int steps = arr[i - 1] * arr[k] * arr[j] + multiplication(i, k, arr, dp) + multiplication(k + 1, j, arr, dp);
+            mini = min(mini, steps);
+        }
+        
+        return dp[i][j] = mini;
+    }
+
+    int matrixMultiplication(int N, int arr[])
+    {
+        vector<vector<int>> dp(N, vector<int>(N, -1));
+        return multiplication(1, N-1, arr, dp);
+    }
+};
+
+/******************************************************************* DP *******************************************************************************/
+
+// User function Template for C++
+
+class Solution{
+public:
+
+    int matrixMultiplication(int N, int arr[])
+    {
+        
+        // base case i == j covered
+        vector<vector<int>> dp(N, vector<int>(N, 0));
+        
+        // bottom up hence starting from last element
+        for(int i = N - 1; i >= 1; i--) {
+            
+            // j always upper limit 
+            for(int j = i + 1; j < N; j++) {
+                int mini = 1e9;
+                
+                for(int k = i; k < j; k++) {
+                    int steps = arr[i - 1]*arr[k]*arr[j] + dp[i][k] + dp[k + 1][j];
+                    mini = min(mini, steps);
+                }
+                dp[i][j] = mini;
+            }
+        }
+        
+        
+        // return the indices where for loops end
+        return dp[1][N-1];
+    }
+};

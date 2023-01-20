@@ -226,3 +226,38 @@ public:
         return ans;
     }
 };
+
+/******************************************************************* ALL IN ONE *******************************************************************************/
+
+void AllInOneTraversal(TreeNode* root) {
+    
+    stack<pair<TreeNode*, int>> st;
+    st.push({root, 1});
+    vector<int> pre, in, post;
+    
+    while(!st.empty()) {
+        TreeNode* node = st.top().first;
+        int num = st.top().second;
+        st.pop();
+        
+        if(num == 1) {
+            
+            pre.push_back(node -> data);
+            st.push({node, num + 1});
+            
+            if(node -> left)
+                st.push(node -> left, 1);
+            
+        } else if(num == 2) {
+            
+            in.push_back(node -> data);
+            st.push({node, num + 1});
+            
+            if(node -> right)
+                st.push(node -> right, 1);
+        } else {
+            
+            post.push_back(node -> data);
+        }
+    }
+}

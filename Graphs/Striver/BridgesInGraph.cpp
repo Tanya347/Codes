@@ -34,6 +34,18 @@ There are no repeated connections.
 
 /******************************************************************* ANSWER *******************************************************************************/
 
+/*
+Time of insertion: Dring the DFS call, the time when a node is visited, is called its time of insertion. For example, if in the above graph, 
+we start DFS from node 1 it will visit node 1 first then node 2, node 3, node 4, and so on. So, the time of insertion for node 1 will be 1, 
+node 2 will be 2, node 3 will be 3 and it will continue like this. To store the time of insertion for each node, we will use a time array.
+
+Lowest time of insertion: In this case, the current node refers to all its adjacent nodes except the parent and takes the minimum lowest time of insertion 
+into account. To store this entity for each node, we will use another ‘low’ array.
+*/
+
+
+
+
 class Solution {
 
     int time = 1;

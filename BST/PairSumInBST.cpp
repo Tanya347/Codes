@@ -18,32 +18,100 @@ Sample Output 1:
 5 10
 6 9
 
-/************************************************* ANSWER *****************************************************************************/
+/************************************************* ANSWER 1 *****************************************************************************/
 
-/**********************************************************
-	Following is the Binary Tree Node class structure
+#include<stack>
 
-	template <typename T>
-	class BinaryTreeNode {
-    	public : 
-    	T data;
-    	BinaryTreeNode<T> *left;
-    	BinaryTreeNode<T> *right;
+int countNodes(BinaryTreeNode<int> *root) {
+    if(root == NULL)
+        return 0;
+    
+    return countNodes(root -> left) + countNodes(root -> right) + 1;
+}
 
-    	BinaryTreeNode(T data) {
-        	this -> data = data;
-        	left = NULL;
-        	right = NULL;
-    	}
-	};
+void printNodesSumToS(BinaryTreeNode<int> *root, int s) {
+    // Write your code here
+    
+    if(root == NULL)
+        return;
+    
+    int totalCount = countNodes(root);
+    int count = 0;
+    
+    stack<BinaryTreeNode<int>*> inorder;
+    stack<BinaryTreeNode<int>*> revInorder;
+    
+    BinaryTreeNode<int>* currentNode = root;
+    
+    while(currentNode != NULL) {
+        inorder.push(currentNode);
+        currentNode = currentNode -> left;
+    }
+    
+    currentNode = root;
+    
+    while(currentNode != NULL) {
+        revInorder.push(currentNode);
+        currentNode = currentNode -> right;
+    }
+    
+    while(count < totalCount - 1) {
+        BinaryTreeNode<int>* inorderTop = inorder.top();
+        BinaryTreeNode<int>* revInorderTop = revInorder.top();
+        
+        if(inorderTop -> data + revInorderTop -> data == s){
+            cout<< inorderTop -> data << " " << revInorderTop -> data <<endl;
+            
+            BinaryTreeNode<int> *top = inorderTop;
+            inorder.pop();
+            count++;
+            
+            if(top -> right != NULL) {
+                top = top -> right;
+                while(top != NULL) {
+                    inorder.push(top);
+                    top = top -> left;
+                }
+            }
+        }
+            
+        else if(inorderTop -> data + revInorderTop -> data > s) {
+                BinaryTreeNode<int> *top = revInorderTop;
+                revInorder.pop();
+                count++;
+                
+                if(top -> left != NULL) {
+                    top = top -> left;
+                    while(top != NULL) {
+                        revInorder.push(top);
+                        top = top -> right;
+                    }
+                }
+        }
+                
+            else {
+                BinaryTreeNode<int> *top = inorderTop;
+                inorder.pop();
+                count++;
+                
+                if(top -> right != NULL) {
+                    top = top -> right;
+                    while(top != NULL) {
+                        inorder.push(top);
+                        top = top -> left;
+                    }
+                }
+            }
+        }
+}
 
-***********************************************************/
+/************************************************* ANSWER 2 *****************************************************************************/
+
 #include<algorithm>
 
 void PrintPairSum(vector<int> TreeEle, int sum) {
     
     sort(TreeEle.begin(), TreeEle.end());
-    
     
     int i = 0 , j = TreeEle.size()-1 ;
     
@@ -74,10 +142,12 @@ vector<int> convertIntoArray(BinaryTreeNode<int> *root) {
     
    Elements.push_back(root -> data);
     
-   vector<int> leftEle = convertIntoArray(root -> left);
-   vector<int> rightEle = convertIntoArray(root -> right);
-
    int j = 0, k = 0;
+    
+   vector<int> leftEle = convertIntoArray(root -> left);
+    
+   vector<int> rightEle = convertIntoArray(root -> right);
+    
    for(int i = 0; i < leftEle.size(); i++)
        Elements.push_back(leftEle[j++]);
     
@@ -87,7 +157,7 @@ vector<int> convertIntoArray(BinaryTreeNode<int> *root) {
    return Elements;
 }
 
-void pairSum(BinaryTreeNode<int> *root, int sum) {
+void printNodesSumToS(BinaryTreeNode<int> *root, int sum) {
     // Write your code here
     
     if(root == NULL )

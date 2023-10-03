@@ -1,5 +1,6 @@
 /************************************************* QUESTION *****************************************************************************/
 
+/*
 Given a binary tree and an integer S, print all the pair of nodes whose sum equals S.
 Note:
 1. Assume the given binary tree contains all unique elements.
@@ -17,6 +18,7 @@ Sample Input 1:
 Sample Output 1:
 5 10
 6 9
+*/
 
 /************************************************* ANSWER 1 *****************************************************************************/
 
